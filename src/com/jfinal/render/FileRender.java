@@ -25,14 +25,16 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.StrKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * FileRender.
  */
 public class FileRender extends Render {
-	
+	Logger log = LoggerFactory.getLogger(CaptchaRender.class);
 	private static final String DEFAULT_CONTENT_TYPE = "application/octet-stream";
 	
 	private File file;
@@ -119,9 +121,9 @@ public class FileRender extends Render {
         }
         finally {
             if (inputStream != null)
-                try {inputStream.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+                try {inputStream.close();} catch (IOException e) {log.error(e.getMessage());}
             if (outputStream != null)
-            	try {outputStream.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+            	try {outputStream.close();} catch (IOException e) {log.error(e.getMessage());}
         }
 	}
 	
@@ -170,9 +172,9 @@ public class FileRender extends Render {
         }
         finally {
             if (inputStream != null)
-                try {inputStream.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+                try {inputStream.close();} catch (IOException e) {log.error(e.getMessage());}
             if (outputStream != null)
-            	try {outputStream.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+            	try {outputStream.close();} catch (IOException e) {log.error(e.getMessage());}
         }
 	}
 	

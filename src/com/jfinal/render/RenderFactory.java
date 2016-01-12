@@ -20,14 +20,16 @@ import java.io.File;
 import java.util.Locale;
 import javax.servlet.ServletContext;
 import com.jfinal.config.Constants;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.PathKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * RenderFactory.
  */
 public class RenderFactory {
-	
+	Logger log = LoggerFactory.getLogger(RenderFactory.class);
 	private Constants constants;
 	private ServletContext servletContext;
 	private IMainRenderFactory mainRenderFactory = null;
@@ -107,7 +109,7 @@ public class RenderFactory {
 			FreeMarkerRender.init(servletContext, Locale.getDefault(), constants.getFreeMarkerTemplateUpdateDelay());
 		} catch (ClassNotFoundException e) {
 			// System.out.println("freemarker can not be supported!");
-			LogKit.logNothing(e);
+			log.error(e.getMessage());
 		}
 	}
 	
@@ -118,7 +120,7 @@ public class RenderFactory {
 		}
 		catch (ClassNotFoundException e) {
 			// System.out.println("Velocity can not be supported!");
-			LogKit.logNothing(e);
+			log.error(e.getMessage());
 		}
 	}
 	
@@ -130,13 +132,13 @@ public class RenderFactory {
 		}
 		catch (ClassNotFoundException e) {
 			// System.out.println("Jsp or JSTL can not be supported!");
-			LogKit.logNothing(e);
+			log.error(e.getMessage());
 		}
 		catch (IllegalStateException e) {
 			throw e;
 		}
 		catch (Exception e) {
-			LogKit.logNothing(e);
+			log.error(e.getMessage());
 		}
 	}
 	

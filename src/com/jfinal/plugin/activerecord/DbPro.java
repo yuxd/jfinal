@@ -27,9 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.cache.ICache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static com.jfinal.plugin.activerecord.DbKit.NULL_PARA_ARRAY;
 
 /**
@@ -37,7 +40,7 @@ import static com.jfinal.plugin.activerecord.DbKit.NULL_PARA_ARRAY;
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class DbPro {
-	
+	Logger log = LoggerFactory.getLogger(DbPro.class);
 	private final Config config;
 	private static final Map<String, DbPro> map = new HashMap<String, DbPro>();
 	
@@ -576,7 +579,6 @@ public class DbPro {
 	 * @param tableName the table name of the table
 	 * @param primaryKey the primary key of the table, composite primary key is separated by comma character: ","
 	 * @param record the record will be saved
-	 * @param true if save succeed otherwise false
 	 */
 	public boolean save(String tableName, String primaryKey, Record record) {
 		Connection conn = null;
@@ -714,11 +716,11 @@ public class DbPro {
 				conn.rollback();
 			return result;
 		} catch (NestedTransactionHelpException e) {
-			if (conn != null) try {conn.rollback();} catch (Exception e1) {LogKit.error(e1.getMessage(), e1);}
-			LogKit.logNothing(e);
+			if (conn != null) try {conn.rollback();} catch (Exception e1) {log.error(e1.getMessage(), e1);}
+			log.error(e.getMessage());
 			return false;
 		} catch (Throwable t) {
-			if (conn != null) try {conn.rollback();} catch (Exception e1) {LogKit.error(e1.getMessage(), e1);}
+			if (conn != null) try {conn.rollback();} catch (Exception e1) {log.error(e1.getMessage(), e1);}
 			throw t instanceof RuntimeException ? (RuntimeException)t : new ActiveRecordException(t);
 		} finally {
 			try {
@@ -728,7 +730,7 @@ public class DbPro {
 					conn.close();
 				}
 			} catch (Throwable t) {
-				LogKit.error(t.getMessage(), t);	// can not throw exception here, otherwise the more important exception in previous catch block can not be thrown
+				log.error(t.getMessage(), t);	// can not throw exception here, otherwise the more important exception in previous catch block can not be thrown
 			} finally {
 				config.removeThreadLocalConnection();	// prevent memory leak
 			}
@@ -896,7 +898,7 @@ public class DbPro {
 			throw new ActiveRecordException(e);
 		} finally {
 			if (autoCommit != null)
-				try {conn.setAutoCommit(autoCommit);} catch (Exception e) {LogKit.error(e.getMessage(), e);}
+				try {conn.setAutoCommit(autoCommit);} catch (Exception e) {log.error(e.getMessage());}
 			config.close(conn);
 		}
 	}
@@ -980,7 +982,7 @@ public class DbPro {
 			throw new ActiveRecordException(e);
 		} finally {
 			if (autoCommit != null)
-				try {conn.setAutoCommit(autoCommit);} catch (Exception e) {LogKit.error(e.getMessage(), e);}
+				try {conn.setAutoCommit(autoCommit);} catch (Exception e) {log.error(e.getMessage());}
 			config.close(conn);
 		}
 	}
@@ -1039,7 +1041,7 @@ public class DbPro {
 			throw new ActiveRecordException(e);
 		} finally {
 			if (autoCommit != null)
-				try {conn.setAutoCommit(autoCommit);} catch (Exception e) {LogKit.error(e.getMessage(), e);}
+				try {conn.setAutoCommit(autoCommit);} catch (Exception e) {log.error(e.getMessage());}
 			config.close(conn);
 		}
     }

@@ -20,14 +20,16 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import com.jfinal.kit.LogKit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.util.SafeEncoder;
 
 /**
  * JdkSerializer.
  */
 public class JdkSerializer implements ISerializer {
-	
+	Logger log = LoggerFactory.getLogger(JdkSerializer.class);
 	public static final ISerializer me = new JdkSerializer();
 	
 	public byte[] keyToBytes(String key) {
@@ -60,7 +62,7 @@ public class JdkSerializer implements ISerializer {
 		}
 		finally {
 			if(objectOut != null)
-				try {objectOut.close();} catch (Exception e) {LogKit.error(e.getMessage(), e);}
+				try {objectOut.close();} catch (Exception e) {log.error(e.getMessage());}
 		}
 	}
 	
@@ -79,7 +81,7 @@ public class JdkSerializer implements ISerializer {
 		}
 		finally {
 			if (objectInput != null)
-				try {objectInput.close();} catch (Exception e) {LogKit.error(e.getMessage(), e);}
+				try {objectInput.close();} catch (Exception e) {log.error(e.getMessage());}
 		}
 	}
 }

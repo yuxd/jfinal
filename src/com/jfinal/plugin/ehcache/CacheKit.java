@@ -17,7 +17,7 @@
 package com.jfinal.plugin.ehcache;
 
 import java.util.List;
-import com.jfinal.log.Log;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -29,7 +29,7 @@ public class CacheKit {
 	
 	private static CacheManager cacheManager;
 	private static volatile Object locker = new Object();
-	private static final Log log = Log.getLog(CacheKit.class);
+	private static final Logger log = LoggerFactory.getLogger(CacheKit.class);
 	
 	static void init(CacheManager cacheManager) {
 		CacheKit.cacheManager = cacheManager;

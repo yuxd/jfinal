@@ -19,16 +19,19 @@ package com.jfinal.plugin.redis.serializer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 import org.nustaq.serialization.FSTObjectInput;
 import org.nustaq.serialization.FSTObjectOutput;
-import com.jfinal.kit.LogKit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.util.SafeEncoder;
 
 /**
  * FstSerializer.
  */
 public class FstSerializer implements ISerializer {
-	
+	Logger log = LoggerFactory.getLogger(FstSerializer.class);
 	public static final ISerializer me = new FstSerializer();
 	
 	public byte[] keyToBytes(String key) {
@@ -61,7 +64,7 @@ public class FstSerializer implements ISerializer {
 		}
 		finally {
 			if(fstOut != null)
-				try {fstOut.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+				try {fstOut.close();} catch (IOException e) {log.error(e.getMessage());}
 		}
 	}
 	
@@ -79,7 +82,7 @@ public class FstSerializer implements ISerializer {
 		}
 		finally {
 			if(fstInput != null)
-				try {fstInput.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+				try {fstInput.close();} catch (IOException e) {log.error(e.getMessage());}
 		}
 	}
 }

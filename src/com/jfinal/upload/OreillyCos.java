@@ -17,16 +17,18 @@
 package com.jfinal.upload;
 
 import java.io.File;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.oreilly.servlet.multipart.FileRenamePolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * OreillyCos.
  */
 public class OreillyCos {
-	
+	static Logger log = LoggerFactory.getLogger(OreillyCos.class);
 	public static void init(String uploadPath, int maxPostSize, String encoding) {
 		if (StrKit.isBlank(uploadPath)) {
 			throw new IllegalArgumentException("uploadPath can not be blank.");
@@ -35,7 +37,7 @@ public class OreillyCos {
 			Class.forName("com.oreilly.servlet.MultipartRequest");
 			doInit(uploadPath, maxPostSize, encoding);
 		} catch (ClassNotFoundException e) {
-			LogKit.logNothing(e);
+			log.error(e.getMessage());
 		}
 	}
 	

@@ -7,7 +7,6 @@
 	<version>2.2-SNAPSHOT</version>
 	<url>http://www.jfinal.com</url>
 	<description>JFinal is a simple, light, rapid,independent, extensible Java WEB + ORM framework. The feature of JFinal looks like ruby on rails especially ActiveRecord.</description>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -35,13 +34,11 @@
 		<developerConnection>scm:git:git@github.com:jfinal/jfinal.git</developerConnection>
 		<url>git@github.com:jfinal/jfinal.git</url>
 	</scm>
-	
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
-
 	<repositories>
 	</repositories>
 	<dependencies>
@@ -52,23 +49,27 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.jfinal</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>8.1.8</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency -->
-		<!-- jsp support by jetty -->
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jsp</artifactId>
-			<version>8.1.8.v20121106</version>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>2.2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+			<version>1.2.1</version>
 		</dependency>
 		<!-- cos -->
 		<dependency>
@@ -93,12 +94,6 @@
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>2.3.20</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -181,7 +176,7 @@
 			</testResource>
 		</testResources>
 		<!-- directory>${project.basedir}/target</directory -->
-	    <directory>${project.basedir}/webapp/WEB-INF/target</directory><!-- vi -->
+	    <directory>${project.basedir}/target</directory><!-- vi -->
 		
 		<plugins>
 			<plugin>
@@ -189,11 +184,10 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>

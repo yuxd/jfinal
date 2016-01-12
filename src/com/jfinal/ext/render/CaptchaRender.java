@@ -27,7 +27,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HashKit;
-import com.jfinal.kit.LogKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.Render;
 
@@ -38,7 +39,7 @@ import com.jfinal.render.Render;
  */
 @Deprecated
 public class CaptchaRender extends Render {
-	
+	Logger log = LoggerFactory.getLogger(CaptchaRender.class);
 	private static final int WIDTH = 80, HEIGHT = 26;
 	private static final String[] strArr = {"3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y"};
 	
@@ -62,7 +63,7 @@ public class CaptchaRender extends Render {
 			// try catch 用来兼容不支持 httpOnly 的 tomcat、jetty
 			cookie.setHttpOnly(true);
 		} catch (Exception e) {
-			LogKit.logNothing(e);
+			log.error(e.getMessage());
 		}
 		response.addCookie(cookie);
 		response.setHeader("Pragma","no-cache");
@@ -79,7 +80,7 @@ public class CaptchaRender extends Render {
 		}
 		finally {
 			if (sos != null) {
-				try {sos.close();} catch (IOException e) {LogKit.logNothing(e);}
+				try {sos.close();} catch (IOException e) {log.error(e.getMessage());}
 			}
 		}
 	}

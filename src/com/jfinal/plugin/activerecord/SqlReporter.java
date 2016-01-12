@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
-import com.jfinal.log.Log;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 
 /**
  * SqlReporter.
@@ -30,7 +30,7 @@ public class SqlReporter implements InvocationHandler {
 	
 	private Connection conn;
 	private static boolean logOn = false;
-	private static final Log log = Log.getLog(SqlReporter.class);
+	private static final Logger log = LoggerFactory.getLogger(SqlReporter.class);
 	
 	SqlReporter(Connection conn) {
 		this.conn = conn;

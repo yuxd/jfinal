@@ -20,18 +20,20 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.plugin.activerecord.ActiveRecordException;
 import com.jfinal.plugin.activerecord.Config;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.NestedTransactionHelpException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ActiveRecord declare transaction.
  * Example: @Before(Tx.class)
  */
 public class Tx implements Interceptor {
-	
+	Logger log = LoggerFactory.getLogger(Tx.class);
 	public static Config getConfigWithTxConfig(Invocation inv) {
 		TxConfig txConfig = inv.getMethod().getAnnotation(TxConfig.class);
 		if (txConfig == null)
@@ -77,10 +79,10 @@ public class Tx implements Interceptor {
 			inv.invoke();
 			conn.commit();
 		} catch (NestedTransactionHelpException e) {
-			if (conn != null) try {conn.rollback();} catch (Exception e1) {LogKit.error(e1.getMessage(), e1);}
-			LogKit.logNothing(e);
+			if (conn != null) try {conn.rollback();} catch (Exception e1) {log.error(e1.getMessage(), e1);}
+			log.error(e.getMessage());
 		} catch (Throwable t) {
-			if (conn != null) try {conn.rollback();} catch (Exception e1) {LogKit.error(e1.getMessage(), e1);}
+			if (conn != null) try {conn.rollback();} catch (Exception e1) {log.error(e1.getMessage(), e1);}
 			throw t instanceof RuntimeException ? (RuntimeException)t : new ActiveRecordException(t);
 		}
 		finally {
@@ -91,7 +93,7 @@ public class Tx implements Interceptor {
 					conn.close();
 				}
 			} catch (Throwable t) {
-				LogKit.error(t.getMessage(), t);	// can not throw exception here, otherwise the more important exception in previous catch block can not be thrown
+				log.error(t.getMessage(), t);	// can not throw exception here, otherwise the more important exception in previous catch block can not be thrown
 			}
 			finally {
 				config.removeThreadLocalConnection();	// prevent memory leak

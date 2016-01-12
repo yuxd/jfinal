@@ -22,12 +22,11 @@ import com.jfinal.config.Constants;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.handler.Handler;
 import com.jfinal.handler.HandlerFactory;
-import com.jfinal.kit.LogKit;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.IPlugin;
 import com.jfinal.render.RenderFactory;
-import com.jfinal.server.IServer;
-import com.jfinal.server.ServerFactory;
 import com.jfinal.token.ITokenCache;
 import com.jfinal.token.TokenManager;
 import com.jfinal.upload.OreillyCos;
@@ -36,16 +35,13 @@ import com.jfinal.upload.OreillyCos;
  * JFinal
  */
 public final class JFinal {
-	
+	Logger log = LoggerFactory.getLogger(JFinal.class);
 	private Constants constants;
 	private ActionMapping actionMapping;
 	private Handler handler;
 	private ServletContext servletContext;
 	private String contextPath = "";
-	private static IServer server;
-	
 	private static final JFinal me = new JFinal();
-	
 	private JFinal() {
 	}
 	
@@ -111,7 +107,7 @@ public final class JFinal {
 				} 
 				catch (Exception e) {
 					success = false;
-					LogKit.error(e.getMessage(), e);
+					log.error(e.getMessage());
 				}
 				if (!success) {
 					System.err.println("Plugin stop error: " + plugins.get(i).getClass().getName());
@@ -143,39 +139,7 @@ public final class JFinal {
 	public List<String> getAllActionKeys() {
 		return actionMapping.getAllActionKeys();
 	}
-	
-	public static void start() {
-		server = ServerFactory.getServer();
-		server.start();
-	}
-	
-	public static void start(String webAppDir, int port, String context, int scanIntervalSeconds) {
-		server = ServerFactory.getServer(webAppDir, port, context, scanIntervalSeconds);
-		server.start();
-	}
-	
-	public static void stop() {
-		server.stop();
-	}
-	
-	/**
-	 * Run JFinal Server with Debug Configurations or Run Configurations in Eclipse JavaEE
-	 * args example: WebRoot 80 / 5
-	 */
-	public static void main(String[] args) {
-		if (args == null || args.length == 0) {
-			server = ServerFactory.getServer();
-			server.start();
-		}
-		else {
-			String webAppDir = args[0];
-			int port = Integer.parseInt(args[1]);
-			String context = args[2];
-			int scanIntervalSeconds = Integer.parseInt(args[3]);
-			server = ServerFactory.getServer(webAppDir, port, context, scanIntervalSeconds);
-			server.start();
-		}
-	}
+
 }
 
 

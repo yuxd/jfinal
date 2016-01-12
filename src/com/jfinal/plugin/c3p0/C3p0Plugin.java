@@ -22,17 +22,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import javax.sql.DataSource;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.IPlugin;
 import com.jfinal.plugin.activerecord.IDataSourceProvider;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The c3p0 datasource plugin.
  */
 public class C3p0Plugin implements IPlugin, IDataSourceProvider {
-	
+	Logger log = LoggerFactory.getLogger(C3p0Plugin.class);
 	private String jdbcUrl;
 	private String user;
 	private String password;
@@ -132,7 +134,7 @@ public class C3p0Plugin implements IPlugin, IDataSourceProvider {
 		}
 		finally {
 			if (fis != null)
-				try {fis.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+				try {fis.close();} catch (IOException e) {log.error(e.getMessage());}
 		}
 	}
 	

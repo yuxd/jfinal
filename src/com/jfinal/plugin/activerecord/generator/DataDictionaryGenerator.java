@@ -26,14 +26,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.StrKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * DataDictionary 数据字典生成器
  */
 public class DataDictionaryGenerator {
-	
+	Logger log = LoggerFactory.getLogger(DataDictionaryGenerator.class);
 	protected DataSource dataSource;
 	protected String dataDictionaryOutputDir;
 	protected String dataDictionaryFileName = "_DataDictionary.txt";
@@ -191,7 +193,7 @@ public class DataDictionaryGenerator {
 		}
 		finally {
 			if (conn != null)
-				try {conn.close();} catch (SQLException e) {LogKit.error(e.getMessage(), e);}
+				try {conn.close();} catch (SQLException e) {log.error(e.getMessage());}
 		}
 	}
 	
@@ -214,7 +216,7 @@ public class DataDictionaryGenerator {
 		}
 		finally {
 			if (fw != null)
-				try {fw.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+				try {fw.close();} catch (IOException e) {log.error(e.getMessage());}
 		}
 	}
 }

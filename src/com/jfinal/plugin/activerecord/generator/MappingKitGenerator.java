@@ -20,14 +20,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.StrKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * MappingKit 文件生成器
  */
 public class MappingKitGenerator {
-	
+	Logger log = LoggerFactory.getLogger(MappingKitGenerator.class);
 	protected String packageTemplate =
 		"package %s;%n%n";
 	protected String importTemplate =
@@ -130,7 +132,7 @@ public class MappingKitGenerator {
 		}
 		finally {
 			if (fw != null)
-				try {fw.close();} catch (IOException e) {LogKit.error(e.getMessage(), e);}
+				try {fw.close();} catch (IOException e) {log.error(e.getMessage());}
 		}
 	}
 }

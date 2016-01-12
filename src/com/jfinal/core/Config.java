@@ -23,8 +23,8 @@ import com.jfinal.config.Routes;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
-import com.jfinal.log.Log;
-import com.jfinal.log.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.jfinal.plugin.IPlugin;
 
 class Config {
@@ -34,7 +34,7 @@ class Config {
 	private static final Plugins plugins = new Plugins();
 	private static final Interceptors interceptors = new Interceptors();
 	private static final Handlers handlers = new Handlers();
-	private static Log log;
+	private static Logger log;
 	
 	// prevent new Config();
 	private Config() {
@@ -44,7 +44,7 @@ class Config {
 	 * Config order: constant, route, plugin, interceptor, handler
 	 */
 	static void configJFinal(JFinalConfig jfinalConfig) {
-		jfinalConfig.configConstant(constants);				initLogFactory();
+		jfinalConfig.configConstant(constants);
 		jfinalConfig.configRoute(routes);
 		jfinalConfig.configPlugin(plugins);					startPlugins();	// very important!!!
 		jfinalConfig.configInterceptor(interceptors);
@@ -97,11 +97,5 @@ class Config {
 				throw new RuntimeException(message, e);
 			}
 		}
-	}
-	
-	private static void initLogFactory() {
-		LogManager.me().init();
-		log = Log.getLog(Config.class);
-		JFinalFilter.initLog();
 	}
 }

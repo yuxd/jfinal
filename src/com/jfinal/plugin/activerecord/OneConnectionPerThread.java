@@ -19,14 +19,16 @@ package com.jfinal.plugin.activerecord;
 import java.sql.Connection;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
-import com.jfinal.kit.LogKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * One Connection Per Thread for one request.<br>
  * warning: can not use this interceptor with transaction feature like Tx, Db.tx(...)
  */
 public class OneConnectionPerThread implements Interceptor {
-	
+	private static final Logger log = LoggerFactory.getLogger(OneConnectionPerThread.class);
 	public void intercept(Invocation inv) {
 		Connection conn = DbKit.config.getThreadLocalConnection();
 		if (conn != null) {
@@ -48,7 +50,7 @@ public class OneConnectionPerThread implements Interceptor {
 		finally {
 			DbKit.config.removeThreadLocalConnection();
 			if (conn != null) {
-				try{conn.close();}catch(Exception e){LogKit.error(e.getMessage(), e);};
+				try{conn.close();}catch(Exception e){log.error(e.getMessage());};
 			}
 		}
 	}

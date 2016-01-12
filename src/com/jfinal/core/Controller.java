@@ -36,7 +36,8 @@ import com.jfinal.render.Render;
 import com.jfinal.render.RenderFactory;
 import com.jfinal.upload.MultipartRequest;
 import com.jfinal.upload.UploadFile;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 /**
  * Controller
  * <br>
@@ -46,7 +47,7 @@ import com.jfinal.upload.UploadFile;
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class Controller {
-	
+	private static Logger log = LoggerFactory.getLogger(Controller.class);
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
@@ -818,7 +819,7 @@ public abstract class Controller {
 		String[] values = request.getParameterValues(name);
 		if (values != null) {
 			if (values.length == 1)
-				try {request.setAttribute(name, TypeConverter.convert(type, values[0]));} catch (ParseException e) {com.jfinal.kit.LogKit.logNothing(e);}
+				try {request.setAttribute(name, TypeConverter.convert(type, values[0]));} catch (ParseException e) {log.error(e.getMessage());}
 			else
 				request.setAttribute(name, values);
 		}

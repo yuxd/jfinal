@@ -26,14 +26,16 @@ import java.util.regex.Pattern;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
-import com.jfinal.kit.LogKit;
+
 import com.jfinal.kit.StrKit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Validator.
  */
 public abstract class Validator implements Interceptor {
-	
+	Logger log = LoggerFactory.getLogger(Validator.class);
 	protected Controller controller;
 	protected Invocation invocation;
 	protected boolean shortCircuit = false;
@@ -71,7 +73,7 @@ public abstract class Validator implements Interceptor {
 			validator.validate(validator.controller);
 		} catch (ValidateException e) {
 			// should not be throw, short circuit validate need this
-			LogKit.logNothing(e);
+			log.error(e.getMessage());
 		}
 		
 		if (validator.invalid) {
