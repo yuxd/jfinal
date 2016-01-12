@@ -7,7 +7,7 @@
 	<version>2.2-SNAPSHOT</version>
 	<url>http://www.jfinal.com</url>
 	<description>JFinal is a simple, light, rapid,independent, extensible Java WEB + ORM framework. The feature of JFinal looks like ruby on rails especially ActiveRecord.</description>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -162,8 +162,6 @@
 	
 	<build>
 		<sourceDirectory>${project.basedir}/src</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/test</testSourceDirectory>
-
 		<resources>
 			<resource>
 				<directory>${project.basedir}/src</directory>
